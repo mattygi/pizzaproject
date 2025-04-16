@@ -1,17 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from airtable import Airtable
 
 app = Flask(__name__)
-app.secret_key = 'temporary_key_for_school_project'  # Simplified key for school use
+app.secret_key = 'temporary_key_for_school_project'
 
-# Hardcoded Admin Credentials
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
 
-# Airtable Connection
-BASE_ID = 'appkRvP5WntxZWYOg'  # Your Airtable Base ID
-TABLE_NAME = 'Account Management'  # Updated table name
-API_TOKEN = 'patHZ6VyGi7miB6sg.3f9a3211d1cf0d5dda1139ea34247c0e19ac2b45cce40e104d800b36da12cac2'  # Your Airtable Personal Access Token
+BASE_ID = 'appkRvP5WntxZWYOg'
+TABLE_NAME = 'Account Management'
+API_TOKEN = 'YOUR_SECURE_API_TOKEN_HERE'
 
 airtable = Airtable(BASE_ID, TABLE_NAME, API_TOKEN)
 
@@ -25,61 +23,76 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # Check if the user is the hardcoded admin
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            session['role'] = 'store_owner'  # Admin is always the store owner
-            return redirect(url_for('dashboard'))
+        if not username or not password:
+            flash("Username and password required!", "error")
+            return redirect(url_for('login'))
 
-        # Otherwise, check Airtable for user authentication
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['role'] = 'store_owner'
+            session['username'] = username
+            flash("Login successful!", "success")
+            return redirect(url_for('login'))  # Redirects to login.html
+
         records = airtable.get_all(formula=f"{{Username}}='{username}'")
         if records:
             stored_password = records[0]['fields'].get('Password')
             role = records[0]['fields'].get('Role')
+
             if stored_password == password:
-                session['role'] = role  # Save user role in session
-                return redirect(url_for('dashboard'))
+                session['role'] = role
+                session['username'] = username
+                flash("Login successful!", "success")
+                return redirect(url_for('login'))  # Redirects to login.html
+        
+        flash("Invalid credentials. Please try again.", "error")
+        return redirect(url_for('login'))
 
-        return "Invalid username or password. Please try again."
-
-    return render_template('login.html')  # Ensure this template exists
-
-@app.route('/dashboard')
-def dashboard():
-    role = session.get('role')
-    if role == 'store_owner':
-        return "Welcome Admin! You can manage pizzas, menus, and prices."
-    elif role == 'user':
-        return "Welcome User! You can customize pizzas and browse the menu."
-    elif role == 'guest':
-        return "Welcome Guest! Feel free to browse and customize pizzas."
-    else:
-        return redirect(url_for('login'))  # Redirect to login if no role is set
+    return render_template('login.html')
 
 @app.route('/logout')
 def logout():
-    session.pop('role', None)  # Clear user session
+    session.clear()
+    flash("You have been logged out.", "info")
     return redirect(url_for('index'))
 
-@app.route('/customize_pizza', methods=['GET'])
-def customize_pizza():
-    preset = request.args.get('preset')
-    return f"Customize pizza as {preset}"  # Replace with proper logic
-
-@app.route('/editMenuItems', methods=['GET'])
+@app.route('/editMenuItems', methods=['GET', 'POST'])
 def edit_menu_items():
-    # Restrict access to store_owner role (hardcoded admin)
     if session.get('role') != 'store_owner':
-        return "Access denied. Only store owners can edit menu items.", 403
-    preset = request.args.get('preset')
-    return f"Edit Menu Items for {preset}"  # Replace with proper logic
+        flash("Access denied. Store owners only.", "error")
+        return redirect(url_for('login'))  # Redirects to login.html
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+        item_name = request.form.get('item')
+        price = request.form.get('price')
+        item_id = request.form.get('item_id')
+
+        try:
+            if action == 'add':
+                airtable.insert({'Item': item_name, 'Price': float(price)})
+            elif action == 'update':
+                airtable.update(item_id, {'Item': item_name, 'Price': float(price)})
+            elif action == 'delete':
+                airtable.delete(item_id)
+            flash("Menu item updated!", "success")
+        except Exception as e:
+            flash(f"Error updating item: {str(e)}", "error")
+
+        return redirect(url_for('edit_menu_items'))
+
+    records = airtable.get_all()
+    menu = [{'id': rec['id'], 'item': rec['fields'].get('Item', ''), 'price': rec['fields'].get('Price', 0)} for rec in records]
+    
+    return render_template('editMenuItems.html', menu=menu)
 
 @app.route('/editPrices', methods=['POST'])
 def edit_prices():
-    # Restrict access to store_owner role (hardcoded admin)
     if session.get('role') != 'store_owner':
-        return "Access denied. Only store owners can edit prices.", 403
+        flash("Access denied. Store owners only.", "error")
+        return redirect(url_for('login'))  # Redirects to login.html
+
     role = request.form.get('role')
-    return f"Edit Prices as {role}"  # Replace with proper logic
+    return render_template('editPrices.html', role=role)
 
 if __name__ == '__main__':
     app.run(debug=True)
