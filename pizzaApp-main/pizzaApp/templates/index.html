@@ -3,49 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>Pizza Shop</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
-  <script src="/static/index.js"></script> <!-- Added script to include your JavaScript file -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="{{ url_for('static', filename='index.js') }}"></script> <!-- Ensures Flask serves the JS file -->
 </head>
 <body>
   <div class="container">
     <h1>Welcome to<br>Pizza Shop</h1>
     <p>Choose how you'd like to access the site</p>
 
-    <!--<form method="get" action="customize_pizza.html">
-      <input type="hidden" name="preset" value="store_owner">
-      <button type="submit" class="btn login-btn" style="margin-top: 20px;">Create a pizza</button>
-    </form>
-
     <div class="btn-group compact-btns">
-      <form method="get" action="editMenuItems.html" style="flex: 1;">
-        <input type="hidden" name="preset" value="user">
+      <form method="get" action="{{ url_for('edit_menu_items') }}" style="flex: 1;">
         <button type="submit" class="small-btn login-btn">Edit Menu Items</button>
       </form>
 
-      <form method="post" action="editPrices.html" style="flex: 1;">
-        <input type="hidden" name="role" value="guest">
-        <button type="submit" class="small-btn register-btn">Edit Item Prices</button>
+      <form method="post" action="{{ url_for('customize_pizza') }}" style="flex: 1;">
+        <button type="submit" class="small-btn register-btn">Create a Pizza</button>
       </form>
-    </div>-->
+    </div>
 
     <div class="btn-group compact-btns">
-      <form method="get" action="login.html" style="flex: 1;">
-        <input type="hidden" name="preset" value="user">
+      <form method="get" action="{{ url_for('login') }}" style="flex: 1;">
         <button type="submit" class="small-btn login-btn">Login as User</button>
       </form>
 
-      <form method="post" action="customize_pizza.html" style="flex: 1;">
-        <input type="hidden" name="role" value="guest">
+      <form method="post" action="{{ url_for('customize_pizza') }}" style="flex: 1;">
         <button type="submit" class="small-btn register-btn">Continue as Guest</button>
       </form>
     </div>
 
-    <form method="get" action="adminLogin.html">
-      <input type="hidden" name="preset" value="store_owner">
+    <form method="get" action="{{ url_for('admin_login') }}">
       <button type="submit" class="btn login-btn" style="margin-top: 20px;">Login as Store Owner</button>
     </form>
 
-    <p>Don't have an account?<br><a href="../templates/register.html" class="small-btn register-btn">Register here</a></p>
+    <p>Don't have an account?<br><a href="{{ url_for('register') }}" class="small-btn register-btn">Register here</a></p>
   </div>
 </body>
 </html>
