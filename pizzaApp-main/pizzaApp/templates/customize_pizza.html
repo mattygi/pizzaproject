@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customize Your Pizza</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <script src="{{ url_for('static', filename='js/pizzacreate.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/customize_pizza.js') }}" defer></script>
 </head>
 <body>
   <div class="container">
@@ -64,17 +64,5 @@
       </div>
     </form>
   </div>
-
-  <script>
-    function clearCheckboxes(groupName) {
-      const checkboxes = document.querySelectorAll(`input[name='${groupName}[]']`);
-      checkboxes.forEach(cb => cb.checked = false);
-    }
-
-    function selectAllCheckboxes(groupName) {
-      const checkboxes = document.querySelectorAll(`input[name='${groupName}[]']`);
-      checkboxes.forEach(cb => cb.checked = true);
-    }
-  </script>
 </body>
 </html>
