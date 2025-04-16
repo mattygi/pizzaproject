@@ -3,110 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit Prices</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="{{ url_for('static', filename='js/editprices.js') }}"></script>
 </head>
 <body>
     <div class="container">
         <h1>Edit Pizza Prices</h1>
-        <form id="price-form">
+        <form id="price-form" method="post" action="{{ url_for('update_prices') }}">
             <h2>Sizes</h2>
             <div class="inline-input">
                 <label>Small: $</label>
-                <input type="number" name="size_small" step="0.01">
+                <input type="number" name="size_small" step="0.01" value="{{ menu.get('Small', '') }}" required>
             </div>
-            
             <div class="inline-input">
                 <label>Medium: $</label>
-                <input type="number" name="size_medium" step="0.01">
+                <input type="number" name="size_medium" step="0.01" value="{{ menu.get('Medium', '') }}" required>
             </div>
-            
             <div class="inline-input">
                 <label>Large: $</label>
-                <input type="number" name="size_large" step="0.01">
+                <input type="number" name="size_large" step="0.01" value="{{ menu.get('Large', '') }}" required>
             </div>
-                <h2>Crusts</h2>
+
+            <h2>Crusts</h2>
             <div class="inline-input">
                 <label>Thin: $</label>
-                <input type="number" name="crust_thin" step="0.01">
+                <input type="number" name="crust_thin" step="0.01" value="{{ menu.get('Thin Crust', '') }}" required>
             </div>
             <div class="inline-input">
                 <label>Regular: $</label>
-                <input type="number" name="crust_regular" step="0.01">
+                <input type="number" name="crust_regular" step="0.01" value="{{ menu.get('Regular Crust', '') }}" required>
             </div>
             <div class="inline-input">
                 <label>Stuffed: $</label>
-                <input type="number" name="crust_stuffed" step="0.01">
+                <input type="number" name="crust_stuffed" step="0.01" value="{{ menu.get('Stuffed Crust', '') }}" required>
             </div>
 
-            <h2>Meats</h2>
-            <div class="inline-input">         
-                <label>Pepperoni: $</label>
-                <input type="number" name="meats_pepperoni" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Sausage: $</label>
-                <input type="number" name="meats_sausage" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Bacon: $</label>
-                <input type="number" name="meats_bacon" step="0.01">
-            </div>
-            <div class="inline-input">    
-                <label>Ham: $</label>
-                <input type="number" name="meats_ham" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Chicken: $</label>
-                <input type="number" name="meats_chicken" step="0.01">
-            </div>
-
-            <h2>Veggies</h2>
-            <div class="inline-input">
-                <label>Mushrooms: $</label>
-                <input type="number" name="veggies_mushrooms" step="0.01">
-            </div>
-            <div class="inline-input">    
-                <label>Onions: $</label>
-                <input type="number" name="veggies_onions" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Green Peppers: $</label>
-                <input type="number" name="veggies_green_peppers" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Black Olives: $</label>
-                <input type="number" name="veggies_black_olives" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Spinach: $</label>
-                <input type="number" name="veggies_spinach" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Pineapple: $</label>
-                <input type="number" name="veggies_pineapple" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Jalapeños: $</label>
-                <input type="number" name="veggies_jalapenos" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Diced Tomatoes: $</label>
-                <input type="number" name="veggies_diced_tomatoes" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Basil: $</label>
-                <input type="number" name="veggies_basil" step="0.01">
-            </div>
-            <div class="inline-input">
-                <label>Banana Peppers: $</label>
-                <input type="number" name="veggies_banana_peppers" step="0.01">
-            </div>
-            <a href="../templates/customize_pizza.html" class="small-btn login-btn">Save Prices</a>
+            <button type="submit" class="small-btn login-btn">Save Prices</button>
         </form>
 
-        <a href="../templates/index.html" class="small-btn login-btn">Home</a>
+        <a href="{{ url_for('index') }}" class="small-btn login-btn">Home</a>
     </div>
-
-  <script src="../scripts/price_editor.js"></script>
 </body>
 </html>
