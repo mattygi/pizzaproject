@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Review Order</title>
-    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="container">
         <h2>🧾 Review Your Order</h2>
 
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
         {% if order %}
             <p><strong>Order ID:</strong> {{ order.id }}</p>
-            <p><strong>Order Type:</strong> {{ order.method.capitalize() }}</p>
-            <p><strong>Status:</strong> {{ order.status }}</p>
+            <p><strong>Order Type:</strong> {{ order.method if order.method else 'Delivery' }}</p>
+            <p><strong>Status:</strong> {{ order.status if order.status else 'Processing' }}</p>
 
             <h3>Items:</h3>
             <ul>
@@ -32,7 +43,7 @@
         {% endif %}
 
         <div class="button-group">
-            <a href="../templates/index.html" class="small-btn secondary-btn">Return to Home</a>
+            <a href="{{ url_for('index') }}" class="small-btn secondary-btn">Return to Home</a>
         </div>
     </div>
 </body>
