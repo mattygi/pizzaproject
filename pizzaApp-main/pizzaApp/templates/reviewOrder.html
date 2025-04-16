@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Review Order</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>🧾 Review Your Order</h2>
+
+        {% if order %}
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Order Type:</strong> {{ order.method.capitalize() }}</p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+
+            <h3>Items:</h3>
+            <ul>
+                {% for item in order.items %}
+                    <li>
+                        {{ item.quantity }}x {{ item.pizza.capitalize() }}
+                        {% if item.size %} ({{ item.size.capitalize() }}){% endif %}
+                        - ${{ item.price }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <p><strong>Total:</strong> ${{ order.total }}</p>
+
+        {% else %}
+            <p>No order found to review.</p>
+        {% endif %}
+
+        <div class="button-group">
+            <a href="../templates/index.html" class="small-btn secondary-btn">Return to Home</a>
+        </div>
+    </div>
+</body>
+</html>

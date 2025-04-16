@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pizza Shop</title>
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <script src="/static/index.js"></script> <!-- Added script to include your JavaScript file -->
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to<br>Pizza Shop</h1>
+    <p>Choose how you'd like to access the site</p>
+
+    <!--<form method="get" action="customize_pizza.html">
+      <input type="hidden" name="preset" value="store_owner">
+      <button type="submit" class="btn login-btn" style="margin-top: 20px;">Create a pizza</button>
+    </form>
+
+    <div class="btn-group compact-btns">
+      <form method="get" action="editMenuItems.html" style="flex: 1;">
+        <input type="hidden" name="preset" value="user">
+        <button type="submit" class="small-btn login-btn">Edit Menu Items</button>
+      </form>
+
+      <form method="post" action="editPrices.html" style="flex: 1;">
+        <input type="hidden" name="role" value="guest">
+        <button type="submit" class="small-btn register-btn">Edit Item Prices</button>
+      </form>
+    </div>-->
+
+    <div class="btn-group compact-btns">
+      <form method="get" action="login.html" style="flex: 1;">
+        <input type="hidden" name="preset" value="user">
+        <button type="submit" class="small-btn login-btn">Login as User</button>
+      </form>
+
+      <form method="post" action="customize_pizza.html" style="flex: 1;">
+        <input type="hidden" name="role" value="guest">
+        <button type="submit" class="small-btn register-btn">Continue as Guest</button>
+      </form>
+    </div>
+
+    <form method="get" action="adminLogin.html">
+      <input type="hidden" name="preset" value="store_owner">
+      <button type="submit" class="btn login-btn" style="margin-top: 20px;">Login as Store Owner</button>
+    </form>
+
+    <p>Don't have an account?<br><a href="../templates/register.html" class="small-btn register-btn">Register here</a></p>
+  </div>
+</body>
+</html>

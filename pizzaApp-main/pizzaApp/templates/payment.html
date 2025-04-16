@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Payment</title>
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <script>
+    function handleRedirect(event) {
+        event.preventDefault();
+
+        const method = document.querySelector('input[name="method"]:checked');
+        if (method) {
+            if (method.value === "credit") {
+                window.location.href = "../templates/checkout.html";
+            } else if (method.value === "in_store") {
+                window.location.href = "../templates/orderPlaced.html";
+            }
+        } else {
+            alert("Please choose a payment method.");
+        }
+    }
+  </script>
+</head>
+<body>
+  <!--<div>
+    <h2>Choose a Payment Method</h2>
+    <form method="post">
+      <label>
+        <input type="radio" name="method" value="credit" required>Credit/Debit</label><br>
+      <label><input type="radio" name="method" value="in_store">Pay In-Store</label><br>
+      <button type="submit">Complete Order</button>
+    </form>
+  </div>-->
+
+  <div class="container">
+    <form onsubmit="handleRedirect(event)">
+      <label>Choose Order Type</label><br>
+      <div class="radio-group">
+          <div class="radio-option">
+              <input type="radio" name="method" value="credit" required>
+              <span>Credit/Debit</span>
+          </div>
+          <div class="radio-option">
+              <input type="radio" name="method" value="in_store">
+              <span>Pay In-Store</span>
+          </div>
+      </div>
+
+      <button type="submit" class="small-btn login-btn">Place Order</button>
+    </form>
+  </div>
+</body>
+</html>

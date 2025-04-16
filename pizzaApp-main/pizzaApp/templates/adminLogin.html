@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login Page</title>
+  <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Login</h2>
+
+    <form method="post">
+      <label for="username">Username</label>
+      <input name="username" id="username" type="text" required>
+
+      <label for="password">Password</label>
+      <input name="password" id="password" type="password" required>
+
+      <div class="btn-group">
+        <form method="get" action="adminMenu.html" style="flex: 1;">
+          <input type="hidden" name="preset" value="user">
+          <button type="submit" class="small-btn login-btn">Login</button>
+        </form>
+
+        <a href="../templates/register.html" class="small-btn register-btn">Register</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

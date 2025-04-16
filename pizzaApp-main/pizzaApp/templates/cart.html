@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <script>
+        function handleRedirect(event) {
+            event.preventDefault();
+
+            const method = document.querySelector('input[name="method"]:checked');
+            if (method) {
+                if (method.value === "delivery") {
+                    window.location.href = "../templates/checkout.html";
+                } else if (method.value === "pickup") {
+                    window.location.href = "../templates/payment.html";
+                }
+            } else {
+                alert("Please choose a delivery method.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Review Your Cart</h2>
+
+        {% if cart %}
+            <ul>
+                {% for item in cart %}
+                    <li>
+                        {{ item.quantity }}x {{ item.pizza.capitalize() }} 
+                        {% if item.size %} ({{ item.size.capitalize() }}){% endif %}
+                        - ${{ item.price }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+
+        <form onsubmit="handleRedirect(event)">
+            <label>Choose Order Type</label><br>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="method" value="delivery" required>
+                    <span>Delivery</span>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="method" value="pickup">
+                    <span>In-Store Pickup</span>
+                </div>
+            </div>
+
+            <button type="submit" class="small-btn login-btn">Proceed to Payment</button>
+        </form>
+    </div>
+</body>
+</html>
