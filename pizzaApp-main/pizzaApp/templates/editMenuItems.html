@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit Menu</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
-  <script src="../static/editmenuitems.js"></script> <!-- Updated script to include renamed JavaScript file -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="{{ url_for('static', filename='js/editmenuitems.js') }}"></script>
 </head>
 <body>
   <div class="container">
@@ -19,10 +19,11 @@
 
     <h3 class="section-label">Edit / Remove Items</h3>
     {% if menu %}
-      {% for id, item, price in menu %}
+      {% for menu_item in menu %}
         <form method="post" class="btn-group compact-btns" style="margin-bottom: 10px;">
-          <input type="hidden" name="item_id" value="{{ id }}">
-          <input type="text" name="item" value="{{ item }}" required>
+          <input type="hidden" name="item_id" value="{{ menu_item.id }}">
+          <input type="text" name="item" value="{{ menu_item.item }}" required>
+          <input type="number" name="price" value="{{ menu_item.price }}" step="0.01" min="0" required>
           <button type="submit" name="action" value="update" class="small-btn login-btn">Update</button>
           <button type="submit" name="action" value="delete" class="small-btn clear-btn">Delete</button>
         </form>
@@ -31,8 +32,9 @@
       <p>No menu items found.</p>
     {% endif %}
 
-    <a href="../templates/index.html" class="small-btn login-btn">Home</a>
+    <a href="{{ url_for('index') }}" class="small-btn login-btn">Home</a>
   </div>
   
 </body>
 </html>
+
