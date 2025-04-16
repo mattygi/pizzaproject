@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Checkout</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
-  <script src="../static/checkout.js"></script> <!-- Updated script to include renamed JavaScript file -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="{{ url_for('static', filename='js/checkout.js') }}"></script>
 </head>
 <body>
   <div class="container">
     <h2>Payment Information</h2>
 
-    <form method="post" action="{{ url_for('checkout') }}">
+    <form method="post" action="{{ url_for('process_checkout') }}">
       <label for="card_name">Name on Card</label>
       <input type="text" name="card_name" id="card_name" required>
 
@@ -29,12 +29,11 @@
       <label for="email">Email</label>
       <input type="text" name="email" id="email" placeholder="example@gmail.com" required>
 
-      <a href="../templates/index.html" class="small-btn login-btn">Home</a>
-
-      <!--<button type="submit" class="btn login-btn">Submit Payment</button>-->
+      <button type="submit" class="btn login-btn">Submit Payment</button>
     </form>
 
-    <!--<a href="../templates/cart.html" class="small-btn login-btn">Back to Cart</a>-->
+    <a href="{{ url_for('index') }}" class="small-btn login-btn">Home</a>
+    <a href="{{ url_for('cart') }}" class="small-btn login-btn">Back to Cart</a>
   </div>
 </body>
 </html>
