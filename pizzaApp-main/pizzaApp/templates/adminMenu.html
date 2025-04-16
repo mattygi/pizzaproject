@@ -3,22 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Panel</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
   <div class="container">
-    <form method="get" action="storeOrders.html">
-      <input type="hidden" name="preset" value="store_orders">
+    <form method="get" action="{{ url_for('store_orders') }}">
       <button type="submit" class="btn login-btn" style="margin-top: 20px;">Review Store Orders</button>
     </form>
     
-    <form method="get" action="editMenuItems.html">
-      <input type="hidden" name="preset" value="edit_menu_items">
-      <button type="submit" class="btn login-btn" style="margin-top: 20px;">Edit Meu Items</button>
+    <form method="get" action="{{ url_for('edit_menu_items') }}">
+      <button type="submit" class="btn login-btn" style="margin-top: 20px;">Edit Menu Items</button>
     </form>
 
-    <form method="get" action="editPrices.html">
-      <input type="hidden" name="preset" value="edit_prices">
+    <form method="get" action="{{ url_for('edit_prices') }}">
       <button type="submit" class="btn login-btn" style="margin-top: 20px;">Edit Menu Prices</button>
     </form>
   </div>
