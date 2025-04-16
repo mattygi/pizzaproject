@@ -1,30 +1,35 @@
-document.querySelector('form').addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent default form submission
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector('form').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent default form submission
 
-    // Gather form data
-    const formData = new FormData(event.target);
-    const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
 
-    // Send the data to the backend
-    fetch('/checkout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (response.ok) {
+        try {
+            const response = await fetch("/checkout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                const errorResponse = await response.json();
+                throw new Error(errorResponse.error || "Unknown error occurred.");
+            }
+
+            const result = await response.json();
             alert(result.message); // Success message
-        } else {
-            alert('Error: ' + result.error); // Error message
+
+            // Optionally, redirect users upon successful payment
+            window.location.href = "/orderPlaced";
+        } catch (error) {
+            console.error("Checkout error:", error);
+            alert("Error: " + error.message);
         }
-    })
-    .catch(error => {
-        alert('Error: ' + error.message); // Handle network errors
     });
 });
