@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customize Your Pizza</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
-  <!--<script src="../static/js/pizzacreate.js" defer></script>-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="{{ url_for('static', filename='js/pizzacreate.js') }}" defer></script>
 </head>
 <body>
   <div class="container">
-    <h2>Customize Your Pizza</h2>
+    <h2>Welcome, {{ username }}! Customize Your Pizza</h2>
 
-    <form method="post">
+    <form method="post" action="{{ url_for('customize_pizza') }}">
       <label class="section-label" for="pizza">Pizza Type</label>
       <select name="pizza" id="pizza" required>
         {% for item, price in menu.items() %}
@@ -35,35 +35,23 @@
 
       <label class="section-label">Meat Toppings</label>
       <div class="checkbox-grid">
-        <label><input type="checkbox" name="meats" value="pepperoni"> <span>Pepperoni</span></label>
-        <label><input type="checkbox" name="meats" value="sausage"> <span>Sausage</span></label>
-        <label><input type="checkbox" name="meats" value="bacon"> <span>Bacon</span></label>
-        <label><input type="checkbox" name="meats" value="ham"> <span>Ham</span></label>
-        <label><input type="checkbox" name="meats" value="chicken"> <span>Chicken</span></label>
-      </div>
-
-      <div class="btn-group compact-btns">
-        <button type="button" class="small-btn select-btn" onclick="selectAllCheckboxes('meats')">Select All Meats</button>
-        <button type="button" class="small-btn clear-btn" onclick="clearCheckboxes('meats')">Clear Meats</button>
+        <label><input type="checkbox" name="meats[]" value="pepperoni"> <span>Pepperoni</span></label>
+        <label><input type="checkbox" name="meats[]" value="sausage"> <span>Sausage</span></label>
+        <label><input type="checkbox" name="meats[]" value="bacon"> <span>Bacon</span></label>
+        <label><input type="checkbox" name="meats[]" value="ham"> <span>Ham</span></label>
+        <label><input type="checkbox" name="meats[]" value="chicken"> <span>Chicken</span></label>
       </div>
 
       <label class="section-label">Veggie Toppings</label>
       <div class="checkbox-grid">
-        <label><input type="checkbox" name="veggies" value="mushrooms"> <span>Mushrooms</span></label>
-        <label><input type="checkbox" name="veggies" value="onions"> <span>Onions</span></label>
-        <label><input type="checkbox" name="veggies" value="green_peppers"> <span>Green Peppers</span></label>
-        <label><input type="checkbox" name="veggies" value="black_olives"> <span>Black Olives</span></label>
-        <label><input type="checkbox" name="veggies" value="spinach"> <span>Spinach</span></label>
-        <label><input type="checkbox" name="veggies" value="pineapple"> <span>Pineapple</span></label>
-        <label><input type="checkbox" name="veggies" value="jalapenos"> <span>Jalapeños</span></label>
-        <label><input type="checkbox" name="veggies" value="diced_tomatoes"> <span>Diced Tomatoes</span></label>
-        <label><input type="checkbox" name="veggies" value="basil"> <span>Basil</span></label>
-        <label><input type="checkbox" name="veggies" value="banana_peppers"> <span>Banana Peppers</span></label>
-      </div>
-
-      <div class="btn-group compact-btns">
-        <button type="button" class="small-btn select-btn" onclick="selectAllCheckboxes('veggies')">Select All Veggies</button>
-        <button type="button" class="small-btn clear-btn" onclick="clearCheckboxes('veggies')">Clear Veggies</button>
+        <label><input type="checkbox" name="veggies[]" value="mushrooms"> <span>Mushrooms</span></label>
+        <label><input type="checkbox" name="veggies[]" value="onions"> <span>Onions</span></label>
+        <label><input type="checkbox" name="veggies[]" value="green_peppers"> <span>Green Peppers</span></label>
+        <label><input type="checkbox" name="veggies[]" value="black_olives"> <span>Black Olives</span></label>
+        <label><input type="checkbox" name="veggies[]" value="spinach"> <span>Spinach</span></label>
+        <label><input type="checkbox" name="veggies[]" value="pineapple"> <span>Pineapple</span></label>
+        <label><input type="checkbox" name="veggies[]" value="jalapenos"> <span>Jalapeños</span></label>
+        <label><input type="checkbox" name="veggies[]" value="diced_tomatoes"> <span>Diced Tomatoes</span></label>
       </div>
 
       <label class="section-label" for="quantity">Quantity</label>
@@ -71,23 +59,20 @@
 
       <div class="btn-group compact-btns">
         <button type="submit" class="small-btn login-btn">Add to Cart</button>
-        <a href="../templates/cart.html" class="small-btn register-btn">Go to Cart</a>
+        <a href="{{ url_for('cart') }}" class="small-btn register-btn">Go to Cart</a>
+        <a href="{{ url_for('logout') }}" class="small-btn logout-btn">Logout</a>
       </div>
-
-      <!--<a href="../templates/checkout.html" class="small-btn login-btn">Checkout</a>
-      <a href="../templates/index.html" class="small-btn login-btn">Home</a>-->
-
     </form>
   </div>
 
   <script>
     function clearCheckboxes(groupName) {
-      const checkboxes = document.querySelectorAll(`input[name='${groupName}']`);
+      const checkboxes = document.querySelectorAll(`input[name='${groupName}[]']`);
       checkboxes.forEach(cb => cb.checked = false);
     }
 
     function selectAllCheckboxes(groupName) {
-      const checkboxes = document.querySelectorAll(`input[name='${groupName}']`);
+      const checkboxes = document.querySelectorAll(`input[name='${groupName}[]']`);
       checkboxes.forEach(cb => cb.checked = true);
     }
   </script>
