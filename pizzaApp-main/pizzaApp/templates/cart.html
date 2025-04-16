@@ -3,27 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Your Cart</title>
-    <link rel="stylesheet" href="../static/css/styles.css">
-    <script>
-        function handleRedirect(event) {
-            event.preventDefault();
-
-            const method = document.querySelector('input[name="method"]:checked');
-            if (method) {
-                if (method.value === "delivery") {
-                    window.location.href = "../templates/checkout.html";
-                } else if (method.value === "pickup") {
-                    window.location.href = "../templates/payment.html";
-                }
-            } else {
-                alert("Please choose a delivery method.");
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="container">
         <h2>Review Your Cart</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
 
         {% if cart %}
             <ul>
@@ -39,7 +33,7 @@
             <p>Your cart is empty.</p>
         {% endif %}
 
-        <form onsubmit="handleRedirect(event)">
+        <form method="post" action="{{ url_for('proceed') }}">
             <label>Choose Order Type</label><br>
             <div class="radio-group">
                 <div class="radio-option">
@@ -57,3 +51,4 @@
     </div>
 </body>
 </html>
+
