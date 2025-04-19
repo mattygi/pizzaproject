@@ -1,0 +1,16 @@
+{
+  "order_id": 1,
+  "user_id": "abc123",
+  "username": "john_doe",
+  "items": [
+    {
+      "Item": "Cheese Pizza",
+      "Size": "Medium",
+      "Meats": "No meats",
+      "Veggies": "Tomatoes, Olives",
+      "Quantity": 2,
+      "Price": 20.0
+    }
+  ],
+  "status": "Complete"
+}
